@@ -1,5 +1,5 @@
 ![img](https://ci.appveyor.com/api/projects/status/gmu6b3ltc80hr3k9?svg=true)
-[![Discord](https://discordapp.com/api/guilds/117523346618318850/widget.png)](https://discord.gg/0ehQwTK2RBjAxzEY)
+[![Discord](https://discordapp.com/api/guilds/268861808520069131/widget.png)](https://discord.gg/GCjkq7y)
 [![Documentation Status](https://readthedocs.org/projects/nadekobot/badge/?version=latest)](http://nadekobot.readthedocs.io/en/latest/?badge=latest)
 # NadekoBot
 
