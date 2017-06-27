@@ -411,12 +411,12 @@ namespace NadekoBot.Modules.Utility
                     .AddField(efb => efb.WithName(GetText("commands_ran")).WithValue(stats.CommandsRan.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("messages")).WithValue($"{stats.MessageCounter} ({stats.MessagesPerSecond:F2}/sec)").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("memory")).WithValue($"{stats.Heap} MB").WithIsInline(true))
-                    .AddField(efb => efb.WithName(GetText("owner ids")).WithValue(string.Join("\n", NadekoBot.Credentials.OwnerIds)).WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("owner_ids")).WithValue(string.Join("\n", NadekoBot.Credentials.OwnerIds)).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("uptime")).WithValue(stats.GetUptimeString("\n")).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("presence")).WithValue(
                         GetText("presence_txt",
                             NadekoBot.Client.GetGuildCount(), stats.TextChannels, stats.VoiceChannels)).WithIsInline(true))
-                    
+
 #if !GLOBAL_NADEKO
                     .WithFooter(efb => efb.WithText(GetText("stats_songs",
                         Music.Music.MusicPlayers.Count(mp => mp.Value.CurrentSong != null),
