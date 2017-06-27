@@ -418,7 +418,7 @@ namespace NadekoBot.Modules.Utility
                             NadekoBot.Client.GetGuildCount(), stats.TextChannels, stats.VoiceChannels)).WithIsInline(true))
 
 #if !GLOBAL_NADEKO
-                    .WithFooter(efb => efb.WithText(GetText("stats_songs",
+                    .WithFooter(efb => efb.WithText(GetText("stats_songs, base made by Kwoth expanded upon by Tony",
                         Music.Music.MusicPlayers.Count(mp => mp.Value.CurrentSong != null),
                         Music.Music.MusicPlayers.Sum(mp => mp.Value.Playlist.Count))))
 #endif
