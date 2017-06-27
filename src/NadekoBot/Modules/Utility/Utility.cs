@@ -402,20 +402,21 @@ namespace NadekoBot.Modules.Utility
 
             await Context.Channel.EmbedAsync(
                 new EmbedBuilder().WithOkColor()
-                    .WithAuthor(eab => eab.WithName($"NadekoBot v{StatsService.BotVersion}")
-                                          .WithUrl("http://nadekobot.readthedocs.io/en/latest/")
-                                          .WithIconUrl("https://cdn.discordapp.com/avatars/116275390695079945/b21045e778ef21c96d175400e779f0fb.jpg"))
+                    .WithAuthor(eab => eab.WithName($"JARVIS v{StatsService.BotVersion}")
+                                          .WithUrl("http://discord.haven-community.org")
+                                          .WithIconUrl("https://images-ext-2.discordapp.net/external/6Kzw9Csid23r1acdpEQ9mQpc9zVL_hajK5kZUiwQwEk/https/cdn.discordapp.com/avatars/176338041827360778/fbc17f6c317bfa1050bc329aa0820311.jpg"))
                     .AddField(efb => efb.WithName(GetText("author")).WithValue(stats.Author).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("botid")).WithValue(NadekoBot.Client.CurrentUser.Id.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("shard")).WithValue($"#{shardId} / {NadekoBot.Client.Shards.Count}").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("commands_ran")).WithValue(stats.CommandsRan.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("messages")).WithValue($"{stats.MessageCounter} ({stats.MessagesPerSecond:F2}/sec)").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("memory")).WithValue($"{stats.Heap} MB").WithIsInline(true))
-                    .AddField(efb => efb.WithName(GetText("owner_ids")).WithValue(string.Join("\n", NadekoBot.Credentials.OwnerIds)).WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("owner ids")).WithValue(string.Join("\n", NadekoBot.Credentials.OwnerIds)).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("uptime")).WithValue(stats.GetUptimeString("\n")).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("presence")).WithValue(
                         GetText("presence_txt",
                             NadekoBot.Client.GetGuildCount(), stats.TextChannels, stats.VoiceChannels)).WithIsInline(true))
+                    
 #if !GLOBAL_NADEKO
                     .WithFooter(efb => efb.WithText(GetText("stats_songs",
                         Music.Music.MusicPlayers.Count(mp => mp.Value.CurrentSong != null),

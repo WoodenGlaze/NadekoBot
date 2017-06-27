@@ -18,8 +18,8 @@ namespace NadekoBot.Services.Impl
 
         public const string BotVersion = "1.3b";
 
-        public string Author => "Kwoth#2560";
-        public string Library => "Discord.Net";
+        public string Author => "Tony Stark#4827";
+        public string Library => "Love";
         public string Heap =>
             Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2).ToString(CultureInfo.InvariantCulture);
         public double MessagesPerSecond => MessageCounter / GetUptime().TotalSeconds;
