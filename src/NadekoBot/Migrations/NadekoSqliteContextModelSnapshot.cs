@@ -361,6 +361,8 @@ namespace NadekoBot.Migrations
 
                     b.Property<bool>("AutoDeleteTrigger");
 
+                    b.Property<bool>("ContainsAnywhere");
+
                     b.Property<DateTime?>("DateAdded");
 
                     b.Property<bool>("DmResponse");
@@ -800,6 +802,24 @@ namespace NadekoBot.Migrations
                     b.ToTable("MutedUserId");
                 });
 
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.NsfwBlacklitedTag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("DateAdded");
+
+                    b.Property<int?>("GuildConfigId");
+
+                    b.Property<string>("Tag");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GuildConfigId");
+
+                    b.ToTable("NsfwBlacklitedTag");
+                });
+
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Permission", b =>
                 {
                     b.Property<int>("Id")
@@ -1126,6 +1146,71 @@ namespace NadekoBot.Migrations
                     b.ToTable("StartupCommand");
                 });
 
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.StreamRoleBlacklistedUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("DateAdded");
+
+                    b.Property<int?>("StreamRoleSettingsId");
+
+                    b.Property<ulong>("UserId");
+
+                    b.Property<string>("Username");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StreamRoleSettingsId");
+
+                    b.ToTable("StreamRoleBlacklistedUser");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.StreamRoleSettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<ulong>("AddRoleId");
+
+                    b.Property<DateTime?>("DateAdded");
+
+                    b.Property<bool>("Enabled");
+
+                    b.Property<ulong>("FromRoleId");
+
+                    b.Property<int>("GuildConfigId");
+
+                    b.Property<string>("Keyword");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GuildConfigId")
+                        .IsUnique();
+
+                    b.ToTable("StreamRoleSettings");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.StreamRoleWhitelistedUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("DateAdded");
+
+                    b.Property<int?>("StreamRoleSettingsId");
+
+                    b.Property<ulong>("UserId");
+
+                    b.Property<string>("Username");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StreamRoleSettingsId");
+
+                    b.ToTable("StreamRoleWhitelistedUser");
+                });
+
             modelBuilder.Entity("NadekoBot.Services.Database.Models.UnmuteTimer", b =>
                 {
                     b.Property<int>("Id")
@@ -1210,6 +1295,28 @@ namespace NadekoBot.Migrations
                         .IsUnique();
 
                     b.ToTable("WaifuInfo");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.WaifuItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("DateAdded");
+
+                    b.Property<int>("Item");
+
+                    b.Property<string>("ItemEmoji");
+
+                    b.Property<int>("Price");
+
+                    b.Property<int?>("WaifuInfoId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WaifuInfoId");
+
+                    b.ToTable("WaifuItem");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.WaifuUpdate", b =>
@@ -1439,6 +1546,13 @@ namespace NadekoBot.Migrations
                         .HasForeignKey("GuildConfigId");
                 });
 
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.NsfwBlacklitedTag", b =>
+                {
+                    b.HasOne("NadekoBot.Services.Database.Models.GuildConfig")
+                        .WithMany("NsfwBlacklistedTags")
+                        .HasForeignKey("GuildConfigId");
+                });
+
             modelBuilder.Entity("NadekoBot.Services.Database.Models.Permission", b =>
                 {
                     b.HasOne("NadekoBot.Services.Database.Models.Permission", "Next")
@@ -1510,6 +1624,28 @@ namespace NadekoBot.Migrations
                         .HasForeignKey("BotConfigId");
                 });
 
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.StreamRoleBlacklistedUser", b =>
+                {
+                    b.HasOne("NadekoBot.Services.Database.Models.StreamRoleSettings")
+                        .WithMany("Blacklist")
+                        .HasForeignKey("StreamRoleSettingsId");
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.StreamRoleSettings", b =>
+                {
+                    b.HasOne("NadekoBot.Services.Database.Models.GuildConfig", "GuildConfig")
+                        .WithOne("StreamRole")
+                        .HasForeignKey("NadekoBot.Services.Database.Models.StreamRoleSettings", "GuildConfigId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.StreamRoleWhitelistedUser", b =>
+                {
+                    b.HasOne("NadekoBot.Services.Database.Models.StreamRoleSettings")
+                        .WithMany("Whitelist")
+                        .HasForeignKey("StreamRoleSettingsId");
+                });
+
             modelBuilder.Entity("NadekoBot.Services.Database.Models.UnmuteTimer", b =>
                 {
                     b.HasOne("NadekoBot.Services.Database.Models.GuildConfig")
@@ -1538,6 +1674,13 @@ namespace NadekoBot.Migrations
                         .WithOne()
                         .HasForeignKey("NadekoBot.Services.Database.Models.WaifuInfo", "WaifuId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("NadekoBot.Services.Database.Models.WaifuItem", b =>
+                {
+                    b.HasOne("NadekoBot.Services.Database.Models.WaifuInfo")
+                        .WithMany("Items")
+                        .HasForeignKey("WaifuInfoId");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.WaifuUpdate", b =>
