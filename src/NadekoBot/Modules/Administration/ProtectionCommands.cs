@@ -29,13 +29,22 @@ namespace NadekoBot.Modules.Administration
 
             private string GetAntiSpamString(AntiSpamStats stats)
             {
-                var ignoredString = string.Join(", ", stats.AntiSpamSettings.IgnoredChannels.Select(c => $"<#{c.ChannelId}>"));
+                var settings = stats.AntiSpamSettings;
+                var ignoredString = string.Join(", ", settings.IgnoredChannels.Select(c => $"<#{c.ChannelId}>"));
 
                 if (string.IsNullOrWhiteSpace(ignoredString))
                     ignoredString = "none";
+
+                string add = "";
+                if (settings.Action == PunishmentAction.Mute
+                    && settings.MuteTime > 0)
+                {
+                    add = " (" + settings.MuteTime + "s)";
+                }
+
                 return GetText("spam_stats",
-                        Format.Bold(stats.AntiSpamSettings.MessageThreshold.ToString()),
-                        Format.Bold(stats.AntiSpamSettings.Action.ToString()),
+                        Format.Bold(settings.MessageThreshold.ToString()),
+                        Format.Bold(settings.Action.ToString() + add),
                         ignoredString);
             }
 
@@ -162,13 +171,13 @@ namespace NadekoBot.Modules.Administration
                     {
                         Action = action,
                         MessageThreshold = messageCount,
+                        MuteTime = time,
                     }
                 };
 
-                _service.AntiSpamGuilds.AddOrUpdate(Context.Guild.Id, stats, (key, old) =>
+                stats = _service.AntiSpamGuilds.AddOrUpdate(Context.Guild.Id, stats, (key, old) =>
                 {
-                    stats.AntiSpamSettings.MessageThreshold = messageCount;
-                    stats.AntiSpamSettings.Action = action;
+                    stats.AntiSpamSettings.IgnoredChannels = old.AntiSpamSettings.IgnoredChannels;
                     return stats;
                 });
 
